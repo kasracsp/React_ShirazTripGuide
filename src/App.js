@@ -1,8 +1,10 @@
-function App() {
+import { Typography } from "@mui/material";
 
+function App() {
   return (
     <div>
-      app
+      <Typography variant='h2'>سلام دنیا</Typography>
+      <h1>سلام دنیا</h1>
     </div>
   );
 }
