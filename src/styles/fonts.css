@@ -88,5 +88,13 @@
         url("../fonts/YekanBakh/YekanBakh-Fat/YekanBakh-Fat.ttf")
         format("truetype");
   }
+  @font-face {
+    font-family: shekasteh;
+    src: url("../fonts/shekasteh/Shekasteh\ V2.001.ttf");
+  }
 
+  @font-face {
+    font-family: placard;
+    src: url("../fonts/placard/placard-condensed.ttf");
+  }
   
