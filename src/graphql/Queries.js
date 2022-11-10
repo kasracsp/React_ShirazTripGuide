@@ -8,10 +8,8 @@ const GET_POSTS_LANDING = gql`
         url
       }
       title
-      content {
-        html
-      }
       slug
+      brief
     }
   }
 `;

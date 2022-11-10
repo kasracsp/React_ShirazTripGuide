@@ -1,8 +1,9 @@
-import { Stack, Typography, Grid, Avatar } from "@mui/material";
+import { Stack, Typography, Grid, Avatar, Button } from "@mui/material";
 import React from "react";
 import Pasargad from "../../assets/pasargad.svg";
 
-const Overlay = ({posts}) => {
+const Overlay = ({ post }) => {
+  console.log(post);
   return (
     <Grid
       container
@@ -59,12 +60,36 @@ const Overlay = ({posts}) => {
         >
           تلاقی فرهنگ هنر و تمدن
         </Typography>
+        <Button
+          onClick={() => console.log("yesss")}
+          sx={{
+            pointerEvents: "all",
+            marginTop: 3,
+            backgroundColor: "rgba(255,255,255,0.9)",
+            color: "#222",
+            paddingX: "1rem",
+            borderRadius: 0,
+            fontWeight: 800,
+            fontSize: "1rem",
+            "&:hover": {
+              backgroundColor: "#fff",
+            },
+          }}
+        >
+          نمایش تمام مقالات ...
+        </Button>
       </Grid>
       <Grid
         item
         xs={3}
         md={3}
-        sx={{ backgroundColor: "rgba(255,255,255,0.5)" }}
+        sx={{
+          backgroundColor: "rgba(255,255,255,0.5)",
+          pointerEvents: "all",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+        }}
       >
         <Stack
           direction="row"
@@ -74,8 +99,8 @@ const Overlay = ({posts}) => {
             backgroundColor: "rgba(255,255,255,0.9)",
             color: "#222",
             padding: "1rem",
-            justifyContent:'center',
-            alignItems:'center'
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <Avatar src={Pasargad} variant="square" />
@@ -83,6 +108,46 @@ const Overlay = ({posts}) => {
             Shiraz Trip Guide
           </Typography>
         </Stack>
+        <Stack sx={{ flex: "1" }}>
+          <Typography
+            sx={{
+              fontFamily: "shekasteh",
+              fontSize: "2rem",
+              padding: "2rem",
+              color: "text.primary",
+            }}
+          >
+            {post.title}
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: "1.2rem",
+              color: "#000",
+              padding: "2rem",
+              fontWeight: 500,
+            }}
+          >
+            {post.brief}
+          </Typography>
+        </Stack>
+        <Button
+        onClick={()=>console.log(post.slug)}
+          sx={{
+            borderRadius: 0,
+            backgroundColor: "rgba(255, 255, 255, 0.7)",
+            color: "text.primary",
+            backdropFilter: "blur(2px)",
+            width: "100%",
+            fontSize:'1.2rem',
+            padding: "1rem",
+            "&:hover": {
+              backgroundColor: "rgba(255,255,255,0.9)",
+              color: "#000",
+            },
+          }}
+        >
+          بیشتر بخوانید...
+        </Button>
       </Grid>
     </Grid>
   );

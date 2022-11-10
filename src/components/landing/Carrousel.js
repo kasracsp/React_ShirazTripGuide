@@ -6,6 +6,7 @@ import "swiper/css/autoplay";
 import { IconButton, Stack } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import Overlay from "./Overlay";
 
 const Carrousel = ({ posts }) => {
   const [mySwiper, setMySwiper] = useState({});
@@ -83,6 +84,7 @@ const Carrousel = ({ posts }) => {
           </IconButton>
         </Stack>
       </Swiper>
+      <Overlay post={posts[currentIndex]} />
     </Stack>
   );
 };
