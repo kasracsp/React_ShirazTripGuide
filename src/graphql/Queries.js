@@ -13,5 +13,26 @@ const GET_POSTS_LANDING = gql`
     }
   }
 `;
+const GET_HOME = gql`
+  query {
+    posts {
+      author {
+        ... on Author {
+          name
+          slug
+          thumb {
+            url
+          }
+        }
+      }
+      id
+      slug
+      title
+      thumb {
+        url
+      }
+    }
+  }
+`;
 
-export {GET_POSTS_LANDING}
+export { GET_POSTS_LANDING, GET_HOME };

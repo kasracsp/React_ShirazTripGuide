@@ -7,7 +7,7 @@ import Overlay from "../components/landing/Overlay";
 
 const Landing = () => {
   const {loading,data,error}=useQuery(GET_POSTS_LANDING)
-  console.log({loading,data,error})
+  // console.log({loading,data,error})
   if(loading) return <h1>در حال بارگذاری...</h1>
   if(error) return <h1>{error.message}</h1>
   return (

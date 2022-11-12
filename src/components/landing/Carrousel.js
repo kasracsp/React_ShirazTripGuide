@@ -34,7 +34,7 @@ const Carrousel = ({ posts }) => {
         <Stack
           direction="row"
           sx={{
-            width: "25%",
+            width: {xs:"100%",md:"18%",xl:"25%"},
             height: "100vh",
             zIndex: 11,
             position: "absolute",

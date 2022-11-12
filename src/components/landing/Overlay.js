@@ -1,9 +1,10 @@
 import { Stack, Typography, Grid, Avatar, Button } from "@mui/material";
 import React from "react";
+import { Link } from "react-router-dom";
 import Pasargad from "../../assets/pasargad.svg";
 
 const Overlay = ({ post }) => {
-  console.log(post);
+  // console.log(post);
   return (
     <Grid
       container
@@ -20,20 +21,44 @@ const Overlay = ({ post }) => {
         color: "rgba(255,255,255,0.98)",
       }}
     >
-      <Grid item xs={3} md={3}></Grid>
+      <Grid item xs={0} md={2} xl={3}></Grid>
       <Grid
         item
-        xs={6}
-        md={6}
+        xs={12}
+        md={5}
+        lg={6}
         sx={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          alignItems: "flex-start",
+          alignItems: { xs: "center", md: "flex-start" },
           height: "100%",
-          pr: "2rem",
+          pr: { xs: "0", md: "2rem" },
         }}
       >
+        <Stack
+          direction="row"
+          spacing={1}
+          dir="ltr"
+          sx={{
+            display: { xs: "flex", md: "none" },
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            width: "100%",
+            backgroundColor: "rgba(255,255,255,0.9)",
+            color: "#222",
+            padding: "1rem",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Avatar src={Pasargad} variant="square" />
+          <Typography variant="h4" sx={{ fontFamily: "placard" }}>
+            Shiraz Trip Guide
+          </Typography>
+        </Stack>
         <Typography
           variant="h1"
           sx={{
@@ -61,7 +86,8 @@ const Overlay = ({ post }) => {
           تلاقی فرهنگ هنر و تمدن
         </Typography>
         <Button
-          onClick={() => console.log("yesss")}
+          component={Link}
+          to="/home"
           sx={{
             pointerEvents: "all",
             marginTop: 3,
@@ -81,13 +107,15 @@ const Overlay = ({ post }) => {
       </Grid>
       <Grid
         item
-        xs={3}
-        md={3}
+        xs={0}
+        md={5}
+        lg={4}
+        xl={3}
         sx={{
           backgroundColor: "rgba(255,255,255,0.5)",
           pointerEvents: "all",
           height: "100%",
-          display: "flex",
+          display: { xs: "none", sm: "flex" },
           flexDirection: "column",
         }}
       >
@@ -131,14 +159,14 @@ const Overlay = ({ post }) => {
           </Typography>
         </Stack>
         <Button
-        onClick={()=>console.log(post.slug)}
+          // onClick={() => console.log(post.slug)}
           sx={{
             borderRadius: 0,
             backgroundColor: "rgba(255, 255, 255, 0.7)",
             color: "text.primary",
             backdropFilter: "blur(2px)",
             width: "100%",
-            fontSize:'1.2rem',
+            fontSize: "1.2rem",
             padding: "1rem",
             "&:hover": {
               backgroundColor: "rgba(255,255,255,0.9)",
