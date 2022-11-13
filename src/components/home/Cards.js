@@ -33,7 +33,7 @@ const Cards = ({ title, slug, thumb, author }) => {
         sx={{ objectFit: "cover" }}
       />
       <CardContent>
-        <Typography variant="h6" color="text.primary">
+        <Typography variant="h6" color="text.primary" noWrap>
           {title}
         </Typography>
       </CardContent>

@@ -34,5 +34,31 @@ const GET_HOME = gql`
     }
   }
 `;
+const GET_ARTICLE = gql`
+  query getArticle($slug:String!){
+    post(where: { slug: $slug }) {
+      author {
+        ... on Author {
+          name
+          slug
+          career
+          thumb {
+            url
+          }
+        }
+      }
+      createdAt
+      date
+      slug
+      thumb {
+        url
+      }
+      title
+      content {
+        html
+      }
+    }
+  }
+`;
 
-export { GET_POSTS_LANDING, GET_HOME };
+export { GET_POSTS_LANDING, GET_HOME, GET_ARTICLE };

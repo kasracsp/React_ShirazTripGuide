@@ -38,7 +38,9 @@ const Header = () => {
                   }}
                 />
               }
-              sx={{ color: "primary.contrastText", width: "fit-content" }}
+              sx={{ color: "primary.contrastText", width: "fit-content","& .MuiButton-startIcon":{
+                mx:0
+              } }}
             >
               راهنمای گردشگری شیراز
             </Button>

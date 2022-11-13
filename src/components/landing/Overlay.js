@@ -159,7 +159,8 @@ const Overlay = ({ post }) => {
           </Typography>
         </Stack>
         <Button
-          // onClick={() => console.log(post.slug)}
+          component={Link}
+          to={`/article/${post.slug}`}
           sx={{
             borderRadius: 0,
             backgroundColor: "rgba(255, 255, 255, 0.7)",
