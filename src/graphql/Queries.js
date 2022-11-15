@@ -35,7 +35,7 @@ const GET_HOME = gql`
   }
 `;
 const GET_ARTICLE = gql`
-  query getArticle($slug:String!){
+  query getArticle($slug: String!) {
     post(where: { slug: $slug }) {
       author {
         ... on Author {
@@ -48,7 +48,6 @@ const GET_ARTICLE = gql`
         }
       }
       createdAt
-      date
       slug
       thumb {
         url
@@ -61,4 +60,38 @@ const GET_ARTICLE = gql`
   }
 `;
 
-export { GET_POSTS_LANDING, GET_HOME, GET_ARTICLE };
+const GET_AUTHORS = gql`
+  query {
+    authors {
+      career
+      name
+      id
+      slug
+      thumb {
+        url
+      }
+      posts {
+        slug
+      }
+    }
+  }
+`;
+
+const GET_AUTHOR = gql`
+  query {
+    authors {
+      career
+      name
+      slug
+      id
+      thumb {
+        url
+      }
+      posts {
+        slug
+      }
+    }
+  }
+`;
+
+export { GET_POSTS_LANDING, GET_HOME, GET_ARTICLE, GET_AUTHORS, GET_AUTHOR };

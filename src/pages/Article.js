@@ -5,7 +5,9 @@ import {
   Avatar,
   Box,
   Button,
+  Chip,
   Container,
+  Divider,
   IconButton,
   Stack,
   Tooltip,
@@ -15,6 +17,10 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Layout from "../components/layout/Layout";
 import { GET_ARTICLE } from "../graphql/Queries";
 import sanitizeHtml from "sanitize-html";
+
+const dataFormatter = new Intl.DateTimeFormat("fa-IR", {
+  dateStyle: "medium",
+});
 
 const Article = () => {
   const { slug } = useParams();
@@ -70,7 +76,7 @@ const Article = () => {
             <Stack mr={2}>
               <Button
                 component={Link}
-                to="/home"
+                to={`/author/${data.post.author.slug}`}
                 disableRipple
                 sx={{
                   padding: 0,
@@ -91,9 +97,22 @@ const Article = () => {
           </Stack>
           <Stack px="2rem">
             <div
-              dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.post.content.html) }}
+              dangerouslySetInnerHTML={{
+                __html: sanitizeHtml(data.post.content.html),
+              }}
             ></div>
           </Stack>
+          <Stack width="100%" alignItems="flex-end">
+            <Chip
+              color="primary"
+              label={dataFormatter.format(Date.parse(data.post.createdAt))}
+            />
+          </Stack>
+        </Stack>
+        <Stack mt={4}>
+          <Typography variant="h6" color="primary">
+            دیدگاه ها
+          </Typography>
         </Stack>
       </Container>
     </Layout>

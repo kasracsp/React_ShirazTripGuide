@@ -52,7 +52,7 @@ const Header = () => {
           >
             <Button
               component={Link}
-              to="/"
+              to="/authors"
               startIcon={<BorderColorIcon sx={{ ml: 1 }} />}
               sx={{ color: "primary.contrastText" }}
             >
@@ -68,7 +68,7 @@ const Header = () => {
             </Button>
           </Stack>
           <Stack direction="row" sx={{ display: { xs: "flex", sm: "none" } }}>
-            <IconButton component={Link} to="/">
+            <IconButton component={Link} to="/authors" >
               <Tooltip title="نویسندگان">
                 <BorderColorIcon sx={{ color: "primary.contrastText" }} />
               </Tooltip>
