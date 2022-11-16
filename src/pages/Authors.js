@@ -2,8 +2,8 @@ import React from "react";
 import { useQuery } from "@apollo/client";
 import { GET_AUTHORS } from "../graphql/Queries";
 import Layout from "../components/layout/Layout";
-import { Card, CardMedia, Container, Grid } from "@mui/material";
-import Cards from "../components/authors/Cards";
+import { Container, Grid } from "@mui/material";
+import AuthorsCard from "../components/authors/AuthorsCard";
 
 const Authors = () => {
   const { loading, data, error } = useQuery(GET_AUTHORS);
@@ -16,7 +16,7 @@ const Authors = () => {
         <Grid container spacing={2} mt={4}  >
           {data.authors.map((author) => (
             <Grid item xs={12} sm={6} md={4} key={author.id}>
-              <Cards {...author} />
+              <AuthorsCard {...author} />
             </Grid>
           ))}
         </Grid>

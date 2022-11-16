@@ -12,17 +12,19 @@ import {
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Cards = ({ title, slug, thumb, author }) => {
+const HomeCard = ({ title, slug, thumb, author, showAuthor=false }) => {
   return (
     <Card sx={{ maxWidth: "360px", m: "0 auto" }}>
+      {showAuthor &&
       <CardHeader
-        avatar={<Avatar src={author.thumb.url} alt={author.slug} />}
-        title={
-          <Typography variant="p" color="text.primary" sx={{ mr: 1 }}>
+      avatar={<Avatar src={author.thumb.url} alt={author.slug} />}
+      title={
+        <Typography variant="p" color="text.primary" sx={{ mr: 1 }}>
             {author.name}
           </Typography>
         }
-      />
+        />
+      }
       <CardMedia
         component="img"
         height="194"
@@ -52,4 +54,4 @@ const Cards = ({ title, slug, thumb, author }) => {
   );
 };
 
-export default Cards;
+export default HomeCard;

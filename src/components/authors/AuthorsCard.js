@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
-const Cards = ({ name, career, slug, posts, thumb }) => {
+const AuthorsCard = ({ name, career, slug, posts, thumb }) => {
   return (
     <Card sx={{ maxWidth: "360px", m: "0 auto" }}>
       <CardMedia
@@ -37,4 +37,4 @@ const Cards = ({ name, career, slug, posts, thumb }) => {
   );
 };
 
-export default Cards;
+export default AuthorsCard;

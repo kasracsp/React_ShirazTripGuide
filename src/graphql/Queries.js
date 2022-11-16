@@ -78,17 +78,34 @@ const GET_AUTHORS = gql`
 `;
 
 const GET_AUTHOR = gql`
-  query {
-    authors {
+  query getAuthor($slug: String!) {
+    author(where: { slug: $slug }) {
       career
       name
-      slug
-      id
+      city
+      birthday
       thumb {
         url
       }
+      description {
+        html
+      }
       posts {
+        author {
+          ... on Author {
+            name
+            slug
+            thumb {
+              url
+            }
+          }
+        }
+        id
         slug
+        title
+        thumb {
+          url
+        }
       }
     }
   }
