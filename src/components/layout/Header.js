@@ -38,9 +38,13 @@ const Header = () => {
                   }}
                 />
               }
-              sx={{ color: "primary.contrastText", width: "fit-content","& .MuiButton-startIcon":{
-                mx:0
-              } }}
+              sx={{
+                color: "primary.contrastText",
+                width: "fit-content",
+                "& .MuiButton-startIcon": {
+                  mx: 0,
+                },
+              }}
             >
               راهنمای گردشگری شیراز
             </Button>
@@ -59,22 +63,24 @@ const Header = () => {
               نویسندگان
             </Button>
             <Button
+              component={Link}
+              to="/signin"
               startIcon={
                 <LoginIcon sx={{ transform: "rotateY(180deg)", ml: 1 }} />
               }
               sx={{ color: "primary.contrastText" }}
             >
-              ورود
+            ورود | ثبت نام
             </Button>
           </Stack>
           <Stack direction="row" sx={{ display: { xs: "flex", sm: "none" } }}>
-            <IconButton component={Link} to="/authors" >
+            <IconButton component={Link} to="/authors">
               <Tooltip title="نویسندگان">
                 <BorderColorIcon sx={{ color: "primary.contrastText" }} />
               </Tooltip>
             </IconButton>
-            <IconButton>
-              <Tooltip title="ورود">
+            <IconButton component={Link} to="/signin">
+              <Tooltip title="ورود | ثبت نام">
                 <LoginIcon
                   sx={{
                     color: "primary.contrastText",

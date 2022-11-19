@@ -35,7 +35,7 @@ const Author = () => {
 
   return (
     <Layout>
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <Stack sx={{ mt: 4 }} spacing={4}>
           <Stack
             width="100%"
@@ -80,7 +80,7 @@ const Author = () => {
                 <Typography>
                   متولد {dataFormatter.format(Date.parse(data.author.birthday))}
                 </Typography>
-                <Typography>ساکن {data.author.city}</Typography>
+                <Typography>ساکن {data.author.city}م</Typography>
               </Stack>
               <div
                 dangerouslySetInnerHTML={{
