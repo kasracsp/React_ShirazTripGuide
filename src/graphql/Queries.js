@@ -111,4 +111,32 @@ const GET_AUTHOR = gql`
   }
 `;
 
-export { GET_POSTS_LANDING, GET_HOME, GET_ARTICLE, GET_AUTHORS, GET_AUTHOR };
+const GET_USER = gql`
+  query getUser($email:String!) {
+    customer(where: {email: $email}) {
+      id
+      email
+      password
+      likes
+    }
+  }
+`;
+
+const GET_USERS = gql`
+  query getUsers($email:String!){
+    customers(where: {email: $email}) {
+      password
+      email
+    }
+  }
+`;
+
+export {
+  GET_POSTS_LANDING,
+  GET_HOME,
+  GET_ARTICLE,
+  GET_AUTHORS,
+  GET_AUTHOR,
+  GET_USER,
+  GET_USERS
+};

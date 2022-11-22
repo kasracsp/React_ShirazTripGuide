@@ -29,3 +29,7 @@ code {
   height: 100%;
   object-fit:cover;
 }
+
+.Toastify__toast--rtl {
+  font-family: "YekanBakh";
+}
