@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -8,13 +8,30 @@ import {
   Stack,
   IconButton,
   Tooltip,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import Pasargad from "../../assets/pasargad.svg";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import LoginIcon from "@mui/icons-material/Login";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteUserOnLocal } from "../../redux/user/userActions";
 
 const Header = () => {
+  const userState = useSelector((state) => state.userState);
+  const dispatch = useDispatch();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openMenu = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  // console.log(userState);
   return (
     <AppBar position="sticky">
       <Container maxWidth="xl">
@@ -62,16 +79,57 @@ const Header = () => {
             >
               نویسندگان
             </Button>
-            <Button
-              component={Link}
-              to="/signin"
-              startIcon={
-                <LoginIcon sx={{ transform: "rotateY(180deg)", ml: 1 }} />
-              }
-              sx={{ color: "primary.contrastText" }}
-            >
-            ورود | ثبت نام
-            </Button>
+            {userState && Object.keys(userState.user).length > 0 ? (
+              <Stack>
+                <Button
+                  id="basic-button"
+                  aria-controls={openMenu ? "basic-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={openMenu ? "true" : undefined}
+                  onClick={handleClick}
+                  sx={{
+                    color: "primary.contrastText",
+                    direction: "ltr",
+                    fontFamily: "Roboto",
+                  }}
+                  startIcon={<KeyboardArrowDownIcon />}
+                >
+                  {userState.user.username}
+                </Button>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={openMenu}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                >
+                  <MenuItem onClick={() => dispatch(deleteUserOnLocal())}>
+                    خروج
+                  </MenuItem>
+                </Menu>
+              </Stack>
+            ) : (
+              <Button
+                component={Link}
+                to="/signin"
+                startIcon={
+                  <LoginIcon sx={{ transform: "rotateY(180deg)", ml: 1 }} />
+                }
+                sx={{ color: "primary.contrastText" }}
+              >
+                ورود | ثبت نام
+              </Button>
+            )}
           </Stack>
           <Stack direction="row" sx={{ display: { xs: "flex", sm: "none" } }}>
             <IconButton component={Link} to="/authors">
@@ -79,16 +137,56 @@ const Header = () => {
                 <BorderColorIcon sx={{ color: "primary.contrastText" }} />
               </Tooltip>
             </IconButton>
-            <IconButton component={Link} to="/signin">
-              <Tooltip title="ورود | ثبت نام">
-                <LoginIcon
+            {userState && Object.keys(userState.user).length > 0 ? (
+              <Stack>
+                <IconButton
+                  id="basic-button"
+                  aria-controls={openMenu ? "basic-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={openMenu ? "true" : undefined}
+                  onClick={handleClick}
                   sx={{
                     color: "primary.contrastText",
-                    transform: "rotateY(180deg)",
+                    direction: "ltr",
+                    fontFamily: "Roboto",
                   }}
-                />
-              </Tooltip>
-            </IconButton>
+                >
+                  <AccountCircleIcon />
+                </IconButton>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={openMenu}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                >
+                  <MenuItem onClick={() => dispatch(deleteUserOnLocal())}>
+                    خروج
+                  </MenuItem>
+                </Menu>
+              </Stack>
+            ) : (
+              <IconButton component={Link} to="/signin">
+                <Tooltip title="ورود | ثبت نام">
+                  <LoginIcon
+                    sx={{
+                      color: "primary.contrastText",
+                      transform: "rotateY(180deg)",
+                    }}
+                  />
+                </Tooltip>
+              </IconButton>
+            )}
           </Stack>
         </Toolbar>
       </Container>

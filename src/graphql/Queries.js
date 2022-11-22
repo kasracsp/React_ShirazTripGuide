@@ -115,6 +115,7 @@ const GET_USER = gql`
   query getUser($email:String!) {
     customer(where: {email: $email}) {
       id
+      username
       email
       password
       likes
@@ -122,14 +123,6 @@ const GET_USER = gql`
   }
 `;
 
-const GET_USERS = gql`
-  query getUsers($email:String!){
-    customers(where: {email: $email}) {
-      password
-      email
-    }
-  }
-`;
 
 export {
   GET_POSTS_LANDING,
@@ -137,6 +130,5 @@ export {
   GET_ARTICLE,
   GET_AUTHORS,
   GET_AUTHOR,
-  GET_USER,
-  GET_USERS
+  GET_USER
 };

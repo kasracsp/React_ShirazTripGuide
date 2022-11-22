@@ -1,9 +1,17 @@
-import React, { useState } from "react";
-import { AppBar, Box, Stack, Tab, Tabs, Typography } from "@mui/material";
+import React from "react";
+import {
+  AppBar,
+  Box,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import PropTypes from "prop-types";
-import Layout from "../components/layout/Layout";
 import Login from "../components/signin/Login";
 import SignUp from "../components/signin/SignUp";
+import Footer from "../components/layout/Footer";
+import SignInHeader from "../components/layout/SignInHeader";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -44,11 +52,16 @@ const SignIn = () => {
     setValue(newValue);
   };
   return (
-    <Layout>
+    <Stack
+      width="100%"
+      height="100vh"
+      sx={{ justifyContent: "flex-start", alignItems: "center" }}
+    >
+      <SignInHeader/>
       <Stack
+        flexGrow={1}
         sx={{
           width: "100%",
-          minHeight: "70vh",
           justifyContent: "flex-start",
           alignItems: "center",
           mt: "3rem",
@@ -80,7 +93,8 @@ const SignIn = () => {
           {value == 0 ? <Login /> : <SignUp />}
         </Box>
       </Stack>
-    </Layout>
+      <Footer />
+    </Stack>
   );
 };
 

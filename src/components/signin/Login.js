@@ -1,7 +1,14 @@
 import React, { useRef, useState } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { IconButton, InputAdornment, Stack, TextField } from "@mui/material";
+import {
+  Checkbox,
+  FormControlLabel,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+} from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -10,7 +17,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useLazyQuery } from "@apollo/client";
 import { GET_USER } from "../../graphql/Queries";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { saveUser, saveUserOnLocal } from "../../redux/user/userActions";
 
 const validationSchema = yup.object({
   email: yup
@@ -24,20 +32,28 @@ const validationSchema = yup.object({
 });
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const [toggle, setToggle] = useState(false);
   const formikRef = useRef();
   const navigate = useNavigate();
   const [passwordHolder, setPasswordHolder] = useState("");
   const [getUser, { loading, data, error }] = useLazyQuery(GET_USER);
   const [showPassword, setShowPassword] = useState(false);
-  
+
   if (data && data.customer) {
     if (data.customer.password === passwordHolder) {
+      if (toggle) {
+        dispatch(saveUserOnLocal(data.customer))
+      }else{
+        dispatch(saveUser(data.customer))
+      }
       navigate(-1, { replace: true });
+    } else {
+      toast.error("رمزعبور اشتباه است. ", {
+        position: "top-center",
+        theme: "dark",
+      });
     }
-    toast.error("رمزعبور اشتباه است. ", {
-      position: "top-center",
-      theme: "dark",
-    });
   }
   if (error || (data && !data.customer)) {
     toast.error("کاربر موردنظر یافت نشد. ", {
@@ -55,7 +71,6 @@ const Login = () => {
         }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
-          console.log(values.email);
           setPasswordHolder(values.password);
           getUser({
             variables: {
@@ -111,6 +126,26 @@ const Login = () => {
                   ),
                 }}
               />
+              <Stack
+                direction="row"
+                sx={{
+                  width: "100%",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <FormControlLabel
+                  sx={{ margin: 0 }}
+                  label="اطلاعات ورود ذخیره شود"
+                  control={
+                    <Checkbox
+                      name="toggle"
+                      checked={toggle}
+                      onChange={() => setToggle(!toggle)}
+                    />
+                  }
+                />
+              </Stack>
               <LoadingButton
                 color="primary"
                 variant="contained"
