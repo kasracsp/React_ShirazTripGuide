@@ -118,7 +118,6 @@ const GET_USER = gql`
       username
       email
       password
-      likes
     }
   }
 `;

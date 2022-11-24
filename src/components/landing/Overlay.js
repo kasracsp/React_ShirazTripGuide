@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import Pasargad from "../../assets/pasargad.svg";
 
 const Overlay = ({ post }) => {
-  // console.log(post);
   return (
     <Grid
       container
