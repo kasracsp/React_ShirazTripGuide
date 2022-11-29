@@ -18,6 +18,8 @@ import Layout from "../components/layout/Layout";
 import { GET_ARTICLE } from "../graphql/Queries";
 import sanitizeHtml from "sanitize-html";
 import ArticleSkeleton from "../components/skeleton/ArticleSkeleton";
+import CommentForm from "../components/comments/CommentForm";
+import CommentsSection from "../components/comments/CommentsSection";
 
 const dataFormatter = new Intl.DateTimeFormat("fa-IR", {
   dateStyle: "medium",
@@ -117,6 +119,8 @@ const Article = () => {
             <Typography variant="h6" color="primary">
               دیدگاه ها
             </Typography>
+            <CommentForm/>
+            <CommentsSection slug={slug}/>
           </Stack>
         </Container>
       )}

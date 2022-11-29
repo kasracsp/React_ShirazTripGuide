@@ -122,6 +122,19 @@ const GET_USER = gql`
   }
 `;
 
+const GET_COMMENTS = gql`
+query getComments($slug:String!) {
+  comments(where: {post: {slug: $slug}}) {
+    id
+    name
+    email
+    parentId
+    createdAt
+    text
+  }
+}
+`;
+
 
 export {
   GET_POSTS_LANDING,
@@ -129,5 +142,6 @@ export {
   GET_ARTICLE,
   GET_AUTHORS,
   GET_AUTHOR,
-  GET_USER
+  GET_USER,
+  GET_COMMENTS
 };

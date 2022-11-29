@@ -14,9 +14,10 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ErrorIcon from "@mui/icons-material/Error";
 import { useMutation } from "@apollo/client";
-import { CREATE_USER } from "../../graphql/Mutations";
+import { CREATE_USER, PUBLISH_USER } from "../../graphql/Mutations";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
 
 const validationSchema = yup.object({
   username: yup
@@ -44,14 +45,22 @@ const validationSchema = yup.object({
 const SignUp = () => {
   const formikRef = useRef();
   const [createUser, { loading, data, error }] = useMutation(CREATE_USER);
+  const [publishUser] = useMutation(PUBLISH_USER);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  if (data) {
-    toast.success("ثبت نام با موفقیت انجام شد و منتظر تایید میباشد.", {
-      position: "top-center",
-      theme: "dark",
-    });
-  }
+  useEffect(() => {
+    if (data) {
+      toast.success(" ثبت نام با موفقیت انجام شد و منتظر تایید میباشد. ", {
+        position: "top-center",
+        theme: "dark",
+      });
+      publishUser({
+        variables: {
+          email: data.createCustomer.email,
+        },
+      });
+    }
+  }, [loading]);
   if (error) {
     toast.error("ایمیل شما تکراری است.", {
       position: "top-center",
@@ -71,7 +80,6 @@ const SignUp = () => {
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
-          console.log(values.email)
           createUser({
             variables: {
               username: values.username,
@@ -208,7 +216,7 @@ const SignUp = () => {
           </form>
         )}
       </Formik>
-      <ToastContainer rtl/>
+      <ToastContainer rtl />
     </>
   );
 };
