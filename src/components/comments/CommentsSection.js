@@ -10,7 +10,7 @@ import { useEffect } from "react";
 const CommentsSection = ({ slug }) => {
   const dispatch = useDispatch();
   const [rootComments, setRootComments] = useState(null);
-  console.log(rootComments);
+  // console.log(rootComments);
   const { loading, data, error } = useQuery(GET_COMMENTS, {
     variables: { slug },
   });

@@ -118,6 +118,11 @@ const GET_USER = gql`
       username
       email
       password
+      likes {
+        comment {
+          id
+        }
+      }
     }
   }
 `;
@@ -131,6 +136,11 @@ query getComments($slug:String!) {
     parentId
     createdAt
     text
+    likes {
+      customer {
+        email
+      }
+    }
   }
 }
 `;

@@ -1,13 +1,14 @@
-import { Typography } from "@mui/material";
-import React, { useState } from "react";
+import { Stack } from "@mui/material";
+import React from "react";
+import Comment from "./Comment";
 
 const CommentList = ({ comments }) => {
   return (
-    <div>
+    <Stack spacing={2} width='100%'>
       {comments.map((comment) => (
-        <Typography key={comment.id}>{comment.name}</Typography>
+        <Comment key={comment.id} comment={comment}/>
       ))}
-    </div>
+    </Stack>
   );
 };
 

@@ -1,24 +1,39 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
+import { useLazyQuery } from "@apollo/client";
 import { useDispatch } from "react-redux";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, useLocation } from "react-router-dom";
+import { GET_USER } from "./graphql/Queries";
 import Article from "./pages/Article";
 import Author from "./pages/Author";
 import Authors from "./pages/Authors";
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
-import SignIn from "./pages/SignIn"
+import SignIn from "./pages/SignIn";
 import { saveUser } from "./redux/user/userActions";
 import ScrollToTop from "./shared/ScrollToTop";
 
 function App() {
-  const dispatch=useDispatch()
-  useEffect(()=>{
-    const localState=JSON.parse(window.localStorage.getItem("user"))
-    console.log(localState)
-    if(localState){
-      dispatch(saveUser(localState))
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const [getUser, { loading, data }] = useLazyQuery(GET_USER);
+  useEffect(() => {
+    const localState = JSON.parse(window.localStorage.getItem("user"));
+    // console.log(localState)
+    if (localState) {
+      getUser({
+        variables: {
+          email: localState.email,
+        },
+      });
     }
-  },[])
+
+    console.log(data,loading);
+    if (data && data.customer) {
+      if (data.customer.password === localState.password) {
+        dispatch(saveUser(data.customer));
+      }
+    }
+  }, [loading, location.pathname]);
   return (
     <div>
       <ScrollToTop />
@@ -28,7 +43,7 @@ function App() {
         <Route path="/article/:slug" element={<Article />} />
         <Route path="/authors" element={<Authors />} />
         <Route path="/author/:slug" element={<Author />} />
-        <Route path="/signin" element={<SignIn/>} />
+        <Route path="/signin" element={<SignIn />} />
         <Route path="/*" element={<Navigate to="/" />} />
       </Routes>
     </div>

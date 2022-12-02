@@ -115,7 +115,7 @@ const Article = () => {
               />
             </Stack>
           </Stack>
-          <Stack mt={4}>
+          <Stack mt={4} spacing={4}>
             <Typography variant="h6" color="primary">
               دیدگاه ها
             </Typography>

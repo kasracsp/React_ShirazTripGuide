@@ -30,7 +30,7 @@ const CommentForm = ({parentId=""}) => {
   const userState = useSelector((state) => state.userState);
   useEffect(() => {
     if (userState && Object.keys(userState.user).length > 0) {
-      console.log(userState.user.username)
+      // console.log(userState.user.username)
       formikRef.current.setFieldValue("name", userState.user.username);
       formikRef.current.setFieldValue("email", userState.user.email);
     }
@@ -87,7 +87,6 @@ const CommentForm = ({parentId=""}) => {
               spacing={2}
               sx={{
                 width: "100%",
-                marginTop: "2rem",
                 justifyContent: "center",
                 alignItems: "flex-start",
                 "& .MuiFormHelperText-root": {
@@ -145,7 +144,8 @@ const CommentForm = ({parentId=""}) => {
                 loading={loading}
                 sx={{ width: { xs: "100%", md: "fit-content" } }}
               >
-                ثبت دیدگاه
+                {parentId ? "پاسخ دادن":"ثبت دیدگاه"}
+                
               </LoadingButton>
             </Stack>
           </form>

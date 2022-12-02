@@ -46,5 +46,23 @@ const PUBLISH_COMMENT = gql`
     }
   }
 `;
+const CREATE_LIKE = gql`
+mutation myCreateLike($id: ID!,
+  $email: String!,) {
+  createLike(
+    data: {comment: {connect: {id: $id}}, customer: {connect: {email: $email}}}
+  ) {
+    id
+  }
+}
+`;
 
-export { CREATE_USER, PUBLISH_USER, CREATE_COMMENT, PUBLISH_COMMENT };
+const PUBLISH_LIKE = gql`
+  mutation myPublishLike($id: ID!) {
+    publishLike(where: {id: $id}, to: PUBLISHED) {
+      id
+    }
+  }
+`;
+
+export { CREATE_USER, PUBLISH_USER, CREATE_COMMENT, PUBLISH_COMMENT,CREATE_LIKE,PUBLISH_LIKE };
