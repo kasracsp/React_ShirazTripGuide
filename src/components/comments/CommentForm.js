@@ -4,7 +4,11 @@ import * as yup from "yup";
 import { Stack, TextField } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useMutation } from "@apollo/client";
-import { CREATE_COMMENT, PUBLISH_COMMENT } from "../../graphql/Mutations";
+import {
+  CREATE_COMMENT,
+  PUBLISH_COMMENT,
+  UPDATE_COMMENT,
+} from "../../graphql/Mutations";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
@@ -13,9 +17,7 @@ import { useParams } from "react-router-dom";
 import { GET_COMMENTS } from "../../graphql/Queries";
 
 const validationSchema = yup.object({
-  name: yup
-    .string("نام خود را وارد کنید")
-    .required("وارد کردن نام ضروری است"),
+  name: yup.string("نام خود را وارد کنید").required("وارد کردن نام ضروری است"),
   email: yup
     .string("ایمیل خود را وارد کنید")
     .email("آدرس ایمیل شما صحیح نمی باشد")
@@ -25,7 +27,7 @@ const validationSchema = yup.object({
     .required("وارد کردن دیدگاه ضروری است"),
 });
 
-const CommentForm = ({parentId="",title,autoClose}) => {
+const CommentForm = ({ parentId = "", title, autoClose, initialText }) => {
   const { slug } = useParams();
   const formikRef = useRef();
   const userState = useSelector((state) => state.userState);
@@ -34,10 +36,17 @@ const CommentForm = ({parentId="",title,autoClose}) => {
       formikRef.current.setFieldValue("name", userState.user.username);
       formikRef.current.setFieldValue("email", userState.user.email);
     }
+    if (initialText) {
+      formikRef.current.setFieldValue("text", initialText);
+    }
   }, []);
 
   const [createComment, { loading, data, error }] = useMutation(CREATE_COMMENT);
   const [publishComment] = useMutation(PUBLISH_COMMENT);
+  const [
+    updateComment,
+    { loading: updateLoading, data: updateData, error: updateError },
+  ] = useMutation(UPDATE_COMMENT);
   useEffect(() => {
     if (data) {
       toast.success("دیدگاه شما با موفقیت ثبت شد. ", {
@@ -48,16 +57,37 @@ const CommentForm = ({parentId="",title,autoClose}) => {
         variables: {
           id: data.createComment.id,
         },
-        refetchQueries: [
-          { query: GET_COMMENTS, variables: { slug } },
-        ],
+        refetchQueries: [{ query: GET_COMMENTS, variables: { slug } }],
       });
-      if(autoClose){
-        autoClose()
+      if (autoClose) {
+        autoClose();
       }
     }
   }, [loading,data]);
+  useEffect(() => {
+    if (updateData) {
+      toast.success("دیدگاه شما با موفقیت ویرایش شد. ", {
+        position: "top-center",
+        theme: "dark",
+      });
+      publishComment({
+        variables: {
+          id: updateData.updateComment.id,
+        },
+        refetchQueries: [{ query: GET_COMMENTS, variables: { slug } }],
+      });
+      if (autoClose) {
+        autoClose();
+      }
+    }
+  }, [updateLoading,updateData]);
   if (error) {
+    toast.error("خطا در برقراری ارتباط", {
+      position: "top-center",
+      theme: "dark",
+    });
+  }
+  if (updateError) {
     toast.error("خطا در برقراری ارتباط", {
       position: "top-center",
       theme: "dark",
@@ -74,16 +104,25 @@ const CommentForm = ({parentId="",title,autoClose}) => {
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
-          createComment({
-            variables: {
-              name: values.name,
-              text: values.text,
-              email: values.email,
-              parentId:parentId,
-              slug:slug
-            },
-          });
-          resetForm({values:{...values, text:""}})
+          if (initialText) {
+            updateComment({
+              variables: {
+                id: parentId,
+                text: values.text,
+              },
+            });
+          } else {
+            createComment({
+              variables: {
+                name: values.name,
+                text: values.text,
+                email: values.email,
+                parentId: parentId,
+                slug: slug,
+              },
+            });
+          }
+          resetForm({ values: { ...values, text: "" } });
         }}
         innerRef={formikRef}
       >
@@ -114,9 +153,7 @@ const CommentForm = ({parentId="",title,autoClose}) => {
                   placeholder="نام کاربری"
                   value={props.values.name}
                   onChange={props.handleChange}
-                  error={
-                    props.touched.name && Boolean(props.errors.name)
-                  }
+                  error={props.touched.name && Boolean(props.errors.name)}
                   helperText={props.touched.name && props.errors.name}
                 />
                 <TextField
@@ -147,7 +184,7 @@ const CommentForm = ({parentId="",title,autoClose}) => {
                 color="primary"
                 variant="contained"
                 type="submit"
-                loading={loading}
+                loading={loading || updateLoading}
                 sx={{ width: { xs: "100%", md: "fit-content" } }}
               >
                 {title}

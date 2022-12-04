@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ReplyIcon from "@mui/icons-material/Reply";
+import EditIcon from "@mui/icons-material/Edit";
 import CommentForm from "./CommentForm";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -40,15 +41,19 @@ const dataFormatter = new Intl.DateTimeFormat("fa-IR", {
 
 const Comment = ({ comment }) => {
   const { slug } = useParams();
-  const [reply, setReply] = useState(false);
-  const [edit, setEdit] = useState(false);
   const [createLike, { loading, data, error }] = useMutation(CREATE_LIKE);
   const [publishLike] = useMutation(PUBLISH_LIKE);
   const [deleteLike, { loading: deleteLoading, error: deleteError }] =
-    useMutation(DELETE_LIKE);
+  useMutation(DELETE_LIKE);
   const commentsState = useSelector((state) => state.commentsState);
   const userState = useSelector((state) => state.userState);
   const childComments = getReplies(commentsState.comments, comment.id);
+  const [reply, setReply] = useState(false);
+  const [edit, setEdit] = useState(false);
+  
+  const canEdit =
+  userState && Object.keys(userState.user).length > 0 && userState.user.email === comment.email &&
+  !(new Date() - new Date(comment.createdAt) > 432000000);
   useEffect(() => {
     if (data) {
       publishLike({
@@ -79,6 +84,7 @@ const Comment = ({ comment }) => {
       theme: "dark",
     });
   }
+  console.log(comment.id)
   return (
     <>
       <Paper>
@@ -136,7 +142,7 @@ const Comment = ({ comment }) => {
                           variables: {
                             id: comment.id,
                             email: userState.user.email,
-                          }
+                          },
                         })
                       }
                       disabled={loading}
@@ -159,6 +165,11 @@ const Comment = ({ comment }) => {
               <IconButton onClick={() => setReply(!reply)}>
                 <ReplyIcon color="success" />
               </IconButton>
+              {canEdit && (
+                <IconButton onClick={() => setEdit(!edit)}>
+                  <EditIcon color="warning" />
+                </IconButton>
+              )}
             </Stack>
             <Typography variant="caption" ml={1}>
               {dataFormatter.format(Date.parse(comment.createdAt))}
@@ -173,7 +184,27 @@ const Comment = ({ comment }) => {
               display: reply ? "flex" : "none",
             }}
           >
-            <CommentForm parentId={comment.id} title='پاسخ دادن' autoClose={()=>setReply(false)}/>
+            <CommentForm
+              parentId={comment.id}
+              title="پاسخ دادن"
+              autoClose={() => setReply(false)}
+            />
+          </Stack>
+          <Stack
+            sx={{
+              m: 2,
+              p: 2,
+              boxShadow:
+                "0px 0px 1px -1px rgba(0,0,0,0.6), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.32)",
+              display: edit ? "flex" : "none",
+            }}
+          >
+            <CommentForm
+              parentId={comment.id}
+              title="ویرایش"
+              autoClose={() => setEdit(false)}
+              initialText={comment.text}
+            />
           </Stack>
         </Card>
       </Paper>

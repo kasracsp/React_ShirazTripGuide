@@ -40,7 +40,7 @@ const CREATE_COMMENT = gql`
   }
 `;
 const PUBLISH_COMMENT = gql`
-  mutation myPublishComment($id: ID!) {
+mutation myPublishComment($id: ID!) {
     publishComment(where: {id: $id}, to: PUBLISHED){
       id
     }
@@ -63,9 +63,9 @@ const PUBLISH_LIKE = gql`
       id
     }
   }
-`;
+  `;
 
-const DELETE_LIKE = gql`
+  const DELETE_LIKE = gql`
   mutation myDleteLike($id:ID!) {
     deleteLike(where: {id: $id}) {
       id
@@ -73,4 +73,11 @@ const DELETE_LIKE = gql`
   }
 `;
 
-export { CREATE_USER, PUBLISH_USER, CREATE_COMMENT, PUBLISH_COMMENT,CREATE_LIKE,PUBLISH_LIKE,DELETE_LIKE };
+const UPDATE_COMMENT = gql`
+  mutation myUpdateComment($id:ID!,$text:String!) {
+    updateComment(data: {text: $text}, where: {id:$id}) {
+      id
+    }
+  }
+`;
+export { CREATE_USER, PUBLISH_USER, CREATE_COMMENT, PUBLISH_COMMENT,CREATE_LIKE,PUBLISH_LIKE,DELETE_LIKE,UPDATE_COMMENT };
