@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { useDispatch } from "react-redux";
-import { Route, Routes, Navigate, useLocation } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { GET_USER } from "./graphql/Queries";
 import Article from "./pages/Article";
 import Author from "./pages/Author";
@@ -14,8 +14,7 @@ import ScrollToTop from "./shared/ScrollToTop";
 
 function App() {
   const dispatch = useDispatch();
-  const location = useLocation();
-  const [getUser, { loading, data, error }] = useLazyQuery(GET_USER);
+  const [getUser, { loading, data }] = useLazyQuery(GET_USER);
   useEffect(() => {
     const localState = JSON.parse(window.localStorage.getItem("user"));
     if (localState) {
@@ -30,8 +29,7 @@ function App() {
     if (data && data.customer) {
       dispatch(saveUser(data.customer));
     }
-    console.log("data is in process");
-  }, [loading, data, location]);
+  }, [loading, data]);
   return (
     <div>
       <ScrollToTop />

@@ -84,7 +84,6 @@ const Comment = ({ comment }) => {
       theme: "dark",
     });
   }
-  console.log(comment.id)
   return (
     <>
       <Paper>

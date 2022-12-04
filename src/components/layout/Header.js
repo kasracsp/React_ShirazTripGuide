@@ -31,7 +31,6 @@ const Header = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  // console.log(userState);
   return (
     <AppBar position="sticky">
       <Container maxWidth="xl">
