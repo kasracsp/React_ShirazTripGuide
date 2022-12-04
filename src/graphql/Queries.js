@@ -122,6 +122,7 @@ const GET_USER = gql`
         comment {
           id
         }
+        id
       }
     }
   }

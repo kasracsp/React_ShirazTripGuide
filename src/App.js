@@ -15,10 +15,9 @@ import ScrollToTop from "./shared/ScrollToTop";
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
-  const [getUser, { loading, data }] = useLazyQuery(GET_USER);
+  const [getUser, { loading, data, error }] = useLazyQuery(GET_USER);
   useEffect(() => {
     const localState = JSON.parse(window.localStorage.getItem("user"));
-    // console.log(localState)
     if (localState) {
       getUser({
         variables: {
@@ -26,14 +25,13 @@ function App() {
         },
       });
     }
-
-    console.log(data,loading);
+  }, []);
+  useEffect(() => {
     if (data && data.customer) {
-      if (data.customer.password === localState.password) {
-        dispatch(saveUser(data.customer));
-      }
+      dispatch(saveUser(data.customer));
     }
-  }, [loading, location.pathname]);
+    console.log("data is in process");
+  }, [loading, data, location]);
   return (
     <div>
       <ScrollToTop />

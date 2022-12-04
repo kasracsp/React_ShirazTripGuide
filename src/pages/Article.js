@@ -7,7 +7,6 @@ import {
   Button,
   Chip,
   Container,
-  Divider,
   IconButton,
   Stack,
   Tooltip,
@@ -119,7 +118,7 @@ const Article = () => {
             <Typography variant="h6" color="primary">
               دیدگاه ها
             </Typography>
-            <CommentForm/>
+            <CommentForm title='ثبت دیدگاه'/>
             <CommentsSection slug={slug}/>
           </Stack>
         </Container>

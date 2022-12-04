@@ -14,6 +14,7 @@ const CommentsSection = ({ slug }) => {
   const { loading, data, error } = useQuery(GET_COMMENTS, {
     variables: { slug },
   });
+  console.log(data)
   useEffect(() => {
     if (data && data.comments.length > 0) {
       dispatch(saveComments(data.comments));

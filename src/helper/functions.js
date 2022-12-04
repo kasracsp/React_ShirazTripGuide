@@ -7,5 +7,10 @@ const doesLikeComment = (likes, id) => {
   const findComment = !!likes.find((item) => item.comment.id === id);
   return findComment;
 };
+const giveLikeId = (likes, id) => {
+  if(likes.length===0) return false
+  const findLikeId = likes.find((item) => item.comment.id === id);
+  return findLikeId.id;
+};
 
-export { getReplies, doesLikeComment };
+export { getReplies, doesLikeComment,giveLikeId };

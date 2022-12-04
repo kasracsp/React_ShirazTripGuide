@@ -65,4 +65,12 @@ const PUBLISH_LIKE = gql`
   }
 `;
 
-export { CREATE_USER, PUBLISH_USER, CREATE_COMMENT, PUBLISH_COMMENT,CREATE_LIKE,PUBLISH_LIKE };
+const DELETE_LIKE = gql`
+  mutation myDleteLike($id:ID!) {
+    deleteLike(where: {id: $id}) {
+      id
+    }
+  }
+`;
+
+export { CREATE_USER, PUBLISH_USER, CREATE_COMMENT, PUBLISH_COMMENT,CREATE_LIKE,PUBLISH_LIKE,DELETE_LIKE };

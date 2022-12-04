@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { GET_COMMENTS } from "../../graphql/Queries";
 
 const validationSchema = yup.object({
   name: yup
@@ -24,13 +25,12 @@ const validationSchema = yup.object({
     .required("وارد کردن دیدگاه ضروری است"),
 });
 
-const CommentForm = ({parentId=""}) => {
+const CommentForm = ({parentId="",title,autoClose}) => {
   const { slug } = useParams();
   const formikRef = useRef();
   const userState = useSelector((state) => state.userState);
   useEffect(() => {
     if (userState && Object.keys(userState.user).length > 0) {
-      // console.log(userState.user.username)
       formikRef.current.setFieldValue("name", userState.user.username);
       formikRef.current.setFieldValue("email", userState.user.email);
     }
@@ -40,7 +40,7 @@ const CommentForm = ({parentId=""}) => {
   const [publishComment] = useMutation(PUBLISH_COMMENT);
   useEffect(() => {
     if (data) {
-      toast.success(" دیدگاه شما با موفقیت ثبت شد و منتظر تایید میباشد. ", {
+      toast.success("دیدگاه شما با موفقیت ثبت شد. ", {
         position: "top-center",
         theme: "dark",
       });
@@ -48,9 +48,15 @@ const CommentForm = ({parentId=""}) => {
         variables: {
           id: data.createComment.id,
         },
+        refetchQueries: [
+          { query: GET_COMMENTS, variables: { slug } },
+        ],
       });
+      if(autoClose){
+        autoClose()
+      }
     }
-  }, [loading]);
+  }, [loading,data]);
   if (error) {
     toast.error("خطا در برقراری ارتباط", {
       position: "top-center",
@@ -144,8 +150,7 @@ const CommentForm = ({parentId=""}) => {
                 loading={loading}
                 sx={{ width: { xs: "100%", md: "fit-content" } }}
               >
-                {parentId ? "پاسخ دادن":"ثبت دیدگاه"}
-                
+                {title}
               </LoadingButton>
             </Stack>
           </form>
